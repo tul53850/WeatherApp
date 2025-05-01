@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import TempUnitToggle from './tempUnitToggle';
+import { StyleSheet, Text, View } from 'react-native';
+import WeatherAPI from './WeatherAPI';
 
 export default function App() {
   const [unit, setUnit] = useState('C');
@@ -16,13 +17,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      
+
       <Text style={styles.tempText}>
         Temperature: {getDisplayedTemperature()}°{unit}
       </Text>
       <TempUnitToggle unit={unit} setUnit={setUnit} />
 
+      <Text>WeatherApp!</Text>
+      <WeatherAPI/> 
       <StatusBar style="auto" />
     </View>
   );
