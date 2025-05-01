@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import WeatherAPI from './WeatherAPI';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>WeatherApp!</Text>
+      <WeatherAPI/> {/* Jason's Component <3 */}
       <StatusBar style="auto" />
     </View>
   );
