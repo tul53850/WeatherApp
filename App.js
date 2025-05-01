@@ -6,7 +6,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>WeatherApp!</Text>
-      <WeatherAPI/> {/* Jason's Component <3 */}
+      <WeatherAPI/> 
       <StatusBar style="auto" />
     </View>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-
+//Jason's Component <3
 export default function WeatherAPI() {
 
   const [weather, setWeather] = useState(null);
