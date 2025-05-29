@@ -1,6 +1,7 @@
 const express = require('express'); //Run this file like 'node server.js' in another terminal
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
+//const fetch = import('node-fetch');
 
 const bodyParser = require('body-parser'); // JSON body parser
 const app = express();
@@ -38,4 +39,26 @@ app.get('/api/data', (req, res) => { //returns JSON response
         if (err) return res.status(500).json({error: err.message});
         res.json({values: rows}); //rows = {id, value} pairs
     });
+});
+
+app.get('/api/weather', async (req, res) => {
+    const lat = req.query.lat;
+    const long = req.query.long;
+
+    try {
+        const response = await fetch(
+          `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${long}`,
+          {
+            headers: {
+              'User-Agent': 'MyWeatherApp/1.0 jth@drexel.edu',
+            },
+          }
+        );
+        const data = await response.json();
+        //const now = data.properties.timeseries[0]; // weather now today
+        //setWeather(now.data.instant.details);
+        res.json(data);
+      } catch (error) {
+        console.error('Failed to fetch weather:', error);
+      }
 });

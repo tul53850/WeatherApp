@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-nativ
 import WeatherAPI from './WeatherAPI';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000'; //Must set to your own IP if using expo app
+const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using expo app
 
 export default function App() {
   const [unit, setUnit] = useState('C');
@@ -60,13 +60,13 @@ export default function App() {
         data={data}
       />
       <TextInput 
-        placeholder='Add to board!'
+        placeholder='Enter location name'
         value={input}
         onChangeText={setInput}
         style={styles.input}
       />
       <Button title="Post!" onPress={post} style={styles.button} color="#333"/>
-      <Button title="Load Bulletin" onPress={load} style={styles.button} color="#333"/>
+      <Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>
       <WeatherAPI/> 
       <StatusBar style="auto" />
     </View>

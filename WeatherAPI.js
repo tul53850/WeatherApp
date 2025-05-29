@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+
+const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using expo app
 //Jason's Component <3
 export default function WeatherAPI() {
 
@@ -13,14 +15,7 @@ export default function WeatherAPI() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const response = await fetch(
-          `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`,
-          {
-            headers: {
-              'User-Agent': 'MyWeatherApp/1.0 jth@drexel.edu',
-            },
-          }
-        );
+        const response = await fetch(`${API_URL}/api/weather?lat=${latitude}&long=${longitude}`);
         const data = await response.json();
         const now = data.properties.timeseries[0]; // weather now today
         setWeather(now.data.instant.details);
