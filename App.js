@@ -9,7 +9,7 @@ const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using
 
 export default function App() {
   const [unit, setUnit] = useState('C');
-  const temperatureInCelsius = 22;
+  const [temperatureInCelsius, setTemperatureInCelsius] = useState(0);
 
   const getDisplayedTemperature = () => {
     if (unit === 'F') {
@@ -20,18 +20,13 @@ export default function App() {
 
   const [input, setInput] = useState('');
   const [data, setData] = useState('');
-  /*useEffect(() => {fetchData();}, []);
-  const fetchData = async() => {
-    try{
-      //const response = await axios.get('http://localhost:5000/api/data');
-      const response = await axios.get(`${API_URL}/api/data`);
-      setData(response.data.message);
-    } catch (error) {console.log(error);}
-  };*/
+  
+  useEffect(() => {load();}, []); //run on app start to load from db
+
   const post = async () => {
     try {await axios.post(`${API_URL}/api/save`, {value: input});
     } catch (error) {console.error('Could not save!! ', error.message);}
-    //load();
+    load(); //refresh
   };
 
   const load = async () => {
@@ -66,8 +61,8 @@ export default function App() {
         style={styles.input}
       />
       <Button title="Post!" onPress={post} style={styles.button} color="#333"/>
-      <Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>
-      <WeatherAPI/> 
+      {/*<Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>*/}
+      <WeatherAPI setTemp={setTemperatureInCelsius} /> 
       <StatusBar style="auto" />
     </View>
   );
