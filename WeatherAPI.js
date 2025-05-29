@@ -3,19 +3,19 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
 const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using expo app
 //Jason's Component <3
-export default function WeatherAPI({setTemp}) {
+export default function WeatherAPI({setTemp, lat, long}) {
 
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // New York
-  const latitude = 40.7;
-  const longitude = 74;
+  // New York = 40.7, 74
+  //const latitude = lat;
+  //const longitude = long;
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/weather?lat=${latitude}&long=${longitude}`);
+        const response = await fetch(`${API_URL}/api/weather?lat=${lat}&long=${long}`);
         const data = await response.json();
         const now = data.properties.timeseries[0]; // weather now today
         setWeather(now.data.instant.details);
@@ -36,7 +36,7 @@ export default function WeatherAPI({setTemp}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Weather at {latitude}, {longitude}</Text>
+      <Text style={styles.title}>Weather at {lat}, {long}</Text>
       <Text>Temperature: {weather.air_temperature} °C</Text>
       <Text>Humidity: {weather.relative_humidity} %</Text>
       <Text>Wind Speed: {weather.wind_speed} m/s</Text>

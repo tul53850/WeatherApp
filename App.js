@@ -10,6 +10,8 @@ const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using
 export default function App() {
   const [unit, setUnit] = useState('C');
   const [temperatureInCelsius, setTemperatureInCelsius] = useState(0);
+  const [latitude, setLatitude] = useState(40.7);
+  const [longitude, setLongitude] = useState(74); //TODO: allow each item switch lat and long on click
 
   const getDisplayedTemperature = () => {
     if (unit === 'F') {
@@ -62,7 +64,7 @@ export default function App() {
       />
       <Button title="Post!" onPress={post} style={styles.button} color="#333"/>
       {/*<Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>*/}
-      <WeatherAPI setTemp={setTemperatureInCelsius} /> 
+      <WeatherAPI setTemp={setTemperatureInCelsius} lat={latitude} long = {longitude}/> 
       <StatusBar style="auto" />
     </View>
   );
