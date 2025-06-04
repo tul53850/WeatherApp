@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
-const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using expo app
+const API_URL = 'http://localhost:5000'; //Must set to your own IP if using expo app
 //Jason's Component <3
 export default function WeatherAPI({setTemp, lat, long}) {
 
@@ -28,7 +28,7 @@ export default function WeatherAPI({setTemp, lat, long}) {
     };
 
     fetchWeather();
-  }, []);
+  }, [lat, long]);
 
   if (loading) {
     return <ActivityIndicator style={styles.centered} size="large" />;

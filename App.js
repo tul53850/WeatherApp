@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState } from 'react';
 import TempUnitToggle from './tempUnitToggle';
-import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import WeatherAPI from './WeatherAPI';
 import axios from 'axios';
 
-const API_URL = 'http://10.250.124.141:5000'; //Must set to your own IP if using expo app
+const API_URL = 'http://localhost:5000'; //Must set to your own IP if using expo app
 
 export default function App() {
   const [unit, setUnit] = useState('C');
@@ -22,12 +22,15 @@ export default function App() {
 
   const [input, setInput] = useState('');
   const [data, setData] = useState('');
+  const [current, setCurrent] = useState('');
   
   useEffect(() => {load();}, []); //run on app start to load from db
 
   const post = async () => {
     try {await axios.post(`${API_URL}/api/save`, {value: input});
     } catch (error) {console.error('Could not save!! ', error.message);}
+    setCurrent(input);
+    coord(); // get coords from city input
     load(); //refresh
   };
 
@@ -36,6 +39,16 @@ export default function App() {
       const response = await axios.get(`${API_URL}/api/data`);
       setData(response.data.values);
     } catch (error) { console.error('Could not load!! ', error.message); }
+  };
+
+  const coord = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/coord?city=${current}`);
+      //const coord = await response.json();
+      //console.log(response.data);
+      setLatitude(parseFloat(response.data[0].lat));
+      setLongitude(parseFloat(response.data[0].lon));
+    } catch (error) { console.error('City not found', error.message);}
   };
 
   return (
@@ -49,19 +62,24 @@ export default function App() {
       <Text style={styles.header}>☆ Weather App ☆</Text>
       <FlatList
         renderItem={({item}) => 
-        <Text style={styles.item} /*onPress={() => removeItem(item.id)}*/>
+        <TouchableOpacity onPress={() => {setCurrent(item.value); coord();}}>
+        <Text style={[styles.item,
+          current === item.value && styles.selectedItem
+         ]} /*onPress={() => removeItem(item.id)}*/>
           {/*item.id*/}{item.value}
-        </Text>}
+        </Text>
+        </TouchableOpacity>}
         keyExtractor={(item, index) => index.toString()}
-        numColumns={1}
+        numColumns={2}
         data={data}
       />
       <TextInput 
-        placeholder='Enter location name'
+        placeholder='Enter City Name'
         value={input}
         onChangeText={setInput}
         style={styles.input}
       />
+      
       <Button title="Post!" onPress={post} style={styles.button} color="#333"/>
       {/*<Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>*/}
       <WeatherAPI setTemp={setTemperatureInCelsius} lat={latitude} long = {longitude}/> 
@@ -109,5 +127,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 20,
     color: 'white',
+  },
+  selectedItem: {
+    backgroundColor: '#ccc',
   },
 });

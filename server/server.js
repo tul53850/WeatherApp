@@ -62,3 +62,24 @@ app.get('/api/weather', async (req, res) => {
         console.error('Failed to fetch weather:', error);
       }
 });
+
+app.get('/api/coord', async (req, res) => {
+    const city = req.query.city;
+
+    try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${city}&format=json&limit=1`,
+          {
+            headers: {
+              'User-Agent': 'MyWeatherApp/1.0 jth@drexel.edu',
+            },
+          }
+        );
+        const data = await response.json();
+        //const now = data.properties.timeseries[0]; // weather now today
+        //setWeather(now.data.instant.details);
+        res.json(data);
+      } catch (error) {
+        console.error('Server: Could not locate city:', error);
+      }
+});
