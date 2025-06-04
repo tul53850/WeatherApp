@@ -4,14 +4,24 @@ import TempUnitToggle from './tempUnitToggle';
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import WeatherAPI from './WeatherAPI';
 import axios from 'axios';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const API_URL = 'http://localhost:5000'; //Must set to your own IP if using expo app
+
+const getBackgroundColors = (temp) => {
+  if (temp === null) return ['#ccc', '#eee']; // fallback/default
+  if (temp <= 0) return ['#74ebd5', '#ACB6E5']; // cold
+  if (temp <= 15) return ['#00c6ff', '#0072ff']; // cool
+  if (temp <= 25) return ['#f7971e', '#ffd200']; // warm
+  return ['#ff512f', '#dd2476']; // hot
+};
 
 export default function App() {
   const [unit, setUnit] = useState('C');
   const [temperatureInCelsius, setTemperatureInCelsius] = useState(0);
   const [latitude, setLatitude] = useState(40.7);
-  const [longitude, setLongitude] = useState(74); //TODO: allow each item switch lat and long on click
+  const [longitude, setLongitude] = useState(74);
+  const  background = getBackgroundColors(temperatureInCelsius);
 
   const getDisplayedTemperature = () => {
     if (unit === 'F') {
@@ -53,13 +63,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-
+    <LinearGradient colors={background} style={styles.container}>
+      <Text style={styles.header}>☆ Weather App! ☆</Text>
+      <Text>weather in {current}: </Text>
       <Text style={styles.tempText}>
         Temperature: {getDisplayedTemperature()}°{unit}
       </Text>
       <TempUnitToggle unit={unit} setUnit={setUnit} />
 
-      <Text style={styles.header}>☆ Weather App ☆</Text>
       <FlatList
         renderItem={({item}) => 
         <TouchableOpacity onPress={() => {setCurrent(item.value); coord();}}>
@@ -80,10 +91,11 @@ export default function App() {
         style={styles.input}
       />
       
-      <Button title="Post!" onPress={post} style={styles.button} color="#333"/>
+      <Button title="Save!" onPress={post} style={styles.button} color="#333"/>
       {/*<Button title="Load Locations" onPress={load} style={styles.button} color="#333"/>*/}
       <WeatherAPI setTemp={setTemperatureInCelsius} lat={latitude} long = {longitude}/> 
       <StatusBar style="auto" />
+    </LinearGradient>
     </View>
   );
 }

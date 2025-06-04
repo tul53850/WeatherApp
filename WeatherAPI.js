@@ -36,7 +36,7 @@ export default function WeatherAPI({setTemp, lat, long}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Weather at {lat}, {long}</Text>
+      <Text style={styles.title}>Weather at {lat.toFixed(2)}, {long.toFixed(2)}</Text>
       <Text>Temperature: {weather.air_temperature} °C</Text>
       <Text>Humidity: {weather.relative_humidity} %</Text>
       <Text>Wind Speed: {weather.wind_speed} m/s</Text>
