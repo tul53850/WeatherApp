@@ -2,7 +2,7 @@
 
 ## Design and Purpose
 
-This app is designed to allow people to view the weather for whatever city they may choose! The cities the user adds are saved to the database and can be acessed for future use! The applications changes dynamically to the weather conditions <3 See temperature in celsius OR fahrenheit!!!!!!
+This app is designed to allow people to view the weather for whatever city they may choose! The cities the user adds are saved to the database and can be accessed for future use! The applications changes dynamically to the weather conditions <3 See temperature in celsius OR fahrenheit!!!!!!
 
 ## Basic Use
 
